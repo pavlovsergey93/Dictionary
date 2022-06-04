@@ -1,7 +1,6 @@
 package com.gmail.pavlovsv93.dictionary.data.repository
 
 import com.gmail.pavlovsv93.dictionary.data.DataSourceInterface
-import com.gmail.pavlovsv93.dictionary.data.LocalDataSource
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import io.reactivex.rxjava3.core.Observable
 

@@ -41,14 +41,16 @@ class MainPresenter(
 		return object : DisposableObserver<AppState>() {
 			override fun onNext(t: AppState) {
 				currentView?.rangeData(t)
+				currentView?.rangeData(AppState.Loading(1))
 			}
 
 			override fun onError(e: Throwable) {
 				currentView?.rangeData(AppState.Error(e))
+				currentView?.rangeData(AppState.Loading(1))
 			}
 
 			override fun onComplete() {
-				currentView?.rangeData(AppState.Loading(null))
+				currentView?.rangeData(AppState.Loading(1))
 			}
 
 		}
