@@ -10,8 +10,11 @@ import com.gmail.pavlovsv93.dictionary.data.retrofit.DictionaryApi
 import com.gmail.pavlovsv93.dictionary.data.retrofit.RetrofitDataSource
 import com.gmail.pavlovsv93.dictionary.data.room.RoomDataSource
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
+import com.gmail.pavlovsv93.dictionary.presenter.PresenterInterface
 import com.gmail.pavlovsv93.dictionary.view.MainInteraptor
+import com.gmail.pavlovsv93.dictionary.view.MainPresenter
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -20,6 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 val appModel = module {
+	single<PresenterInterface> { MainPresenter(get(), get()) }
+	single<CompositeDisposable> { CompositeDisposable() }
 	single<InteraptorInterface<AppState>> { MainInteraptor(get(named("remote_repos")), get(named("local_repos"))) }
 
 	single<RepositoryInterface<List<Word>>>(named("local_repos")) { Repository(get(named("local"))) }
