@@ -8,4 +8,5 @@
 	<string name="search_hint">New word</string>
 	<string name="delete_description">X</string>
 	<string name="description_search">Найти слово</string>
+	<string name="error_empty">Word is not write!</string>
 </resources>
