@@ -13,9 +13,18 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), ViewInterface {
+	interface OnClickWord{
+		fun onClickWord(word: Word)
+	}
+
 	private val searchWord: String? = null
 	private lateinit var binding: ActivityMainBinding
 	private val presenter: PresenterInterface by inject()
+	private val adapter = MainRvAdapter(object : OnClickWord{
+		override fun onClickWord(word: Word) {
+			showError(word.word, false)
+		}
+	})
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivityMainBinding.inflate(layoutInflater)

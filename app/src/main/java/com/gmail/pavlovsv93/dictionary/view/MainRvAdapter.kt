@@ -9,17 +9,18 @@ import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainRvItemBinding
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 
-class MainRvAdapter() : RecyclerView.Adapter<MainRvAdapter.MainRvViewHolder>() {
+class MainRvAdapter(val onClick: MainActivity.OnClickWord) : RecyclerView.Adapter<MainRvAdapter.MainRvViewHolder>() {
 
 	inner class MainRvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		fun bind(word: Word) {
 			ActivityMainRvItemBinding.bind(itemView).apply {
 				tvHeaderItem.text = word.word
 				tvDescriptionItem.text = word.meanings.first().translation?.text
-
+				llContainerItem.setOnClickListener {
+					onClick.onClickWord(word)
+				}
 			}
 		}
-
 	}
 
 	private val listData: MutableList<Word> = mutableListOf()
