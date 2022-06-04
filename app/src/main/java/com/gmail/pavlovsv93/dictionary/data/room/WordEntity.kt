@@ -19,13 +19,13 @@ data class WordEntity(
 
 	data class Meaning(
 		val mId: Int,
-		val imageUrl: String,
+		val imageUrl: String?,
 
 		@Embedded
 		val translation: Translation
 	) {
 		class Translation(
-			val translationText: String
+			val translationText: String?
 		)
 	}
 }

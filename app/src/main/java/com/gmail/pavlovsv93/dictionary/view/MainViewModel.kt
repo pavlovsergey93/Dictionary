@@ -33,12 +33,13 @@ constructor(
 						withContext(dispatcher.main) {
 							liveData.postValue(AppState.Loading(1))
 						}
-						withContext(dispatcher.io) {
-							if (!result.isNullOrEmpty()) {
+						if (!result.isNullOrEmpty()) {
+							withContext(dispatcher.io){
 								liveData.postValue(AppState.Success(result))
-							} else if (result.isEmpty()) {
-								liveData.postValue(AppState.Error(BODY_EMPTY))
+								interaptor.setDataLocal(result)
 							}
+						} else if (result.isEmpty()) {
+							liveData.postValue(AppState.Error(BODY_EMPTY))
 						}
 					}
 				}

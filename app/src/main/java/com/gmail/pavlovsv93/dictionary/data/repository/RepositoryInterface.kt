@@ -7,4 +7,5 @@ import retrofit2.Response
 
 interface RepositoryInterface<T> {
 	suspend fun getDataRepository(word: String): List<Word>
+	suspend fun setDataLocal(words: List<Word>)
 }

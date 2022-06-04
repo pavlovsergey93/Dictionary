@@ -20,4 +20,8 @@ class MainInteraptor(
 			localRepository.getDataRepository(word)
 		}
 	}
+
+	override suspend fun setDataLocal(words: List<Word>) {
+		localRepository.setDataLocal(words)
+	}
 }

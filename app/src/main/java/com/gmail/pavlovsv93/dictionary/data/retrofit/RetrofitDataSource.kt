@@ -34,4 +34,8 @@ class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word
 	private fun convertTranslation(translation: SearchDTOItem.Translation): Word.Meanings.Translation? {
 		return Word.Meanings.Translation(translation.text)
 	}
+
+	override suspend fun setDataLocal(words: List<Word>) {
+		TODO("Not yet implemented")
+	}
 }
