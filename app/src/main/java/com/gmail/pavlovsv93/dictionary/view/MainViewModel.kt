@@ -8,15 +8,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MainViewModel(
+class MainViewModel(private val interaptor: InteraptorInterface<AppState>
 ) : BaseViewModel<AppState>()
 {
-	private lateinit var interaptor: InteraptorInterface<AppState>
-
-	override fun setInteraptor(interaptor: InteraptorInterface<AppState>) {
-		this.interaptor = interaptor
-	}
-
 	override fun getDataViewModel(word: String, isOnline: Boolean): LiveData<AppState> {
 		compositeDisposable.add(
 			interaptor.getDataInteraptor(word, isOnline)

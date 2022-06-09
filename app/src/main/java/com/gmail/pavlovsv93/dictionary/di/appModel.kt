@@ -27,17 +27,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 val appModel = module {
-	single<PresenterInterface> { MainPresenter(get(), get()) }
+	single<PresenterInterface> { MainPresenter(interaptor = get(), compositeDisposable = get()) }
 	single<CompositeDisposable> { CompositeDisposable() }
-	single<InteraptorInterface<AppState>> { MainInteraptor(get(named("remote_repos")), get(named("local_repos"))) }
+	single<InteraptorInterface<AppState>> { MainInteraptor(
+		remoteRepository = get(named("remote_repos")),
+		localRepository = get(named("local_repos"))
+	) }
 
-	single<RepositoryInterface<List<Word>>>(named("local_repos")) { Repository(get(named("local"))) }
-	single<DataSourceInterface<List<Word>>>(named("local")) { LocalDataSource(get()) }
+	single<RepositoryInterface<List<Word>>>(named("local_repos")) { Repository(dataSource = get(named("local"))) }
+	single<DataSourceInterface<List<Word>>>(named("local")) { LocalDataSource(provider = get()) }
 	single<RoomDataSource> { RoomDataSource() }
 
-	single<RepositoryInterface<List<Word>>>(named("remote_repos")) { Repository(get(named("remote"))) }
-	single<DataSourceInterface<List<Word>>>(named("remote")) { RemoteDataSource(get()) }
-	single<RetrofitDataSource> { RetrofitDataSource(get()) }
+	single<RepositoryInterface<List<Word>>>(named("remote_repos")) { Repository(dataSource = get(named("remote"))) }
+	single<DataSourceInterface<List<Word>>>(named("remote")) { RemoteDataSource(provider = get()) }
+	single<RetrofitDataSource> { RetrofitDataSource(api = get()) }
 	single<DictionaryApi> { get<Retrofit>().create(DictionaryApi::class.java) }
 	single<Retrofit> {
 		Retrofit.Builder()
@@ -46,4 +49,5 @@ val appModel = module {
 			.addConverterFactory(GsonConverterFactory.create())
 			.build()
 	}
+	viewModel { MainViewModel(interaptor = get())}
 }

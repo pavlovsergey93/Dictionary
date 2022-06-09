@@ -17,6 +17,7 @@ import com.gmail.pavlovsv93.dictionary.utils.isOnline
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SAVE_STATE_RV = "SAVE_STATE_RV"
 
@@ -27,10 +28,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 
 	private var searchWord: String? = null
 	private lateinit var binding: ActivityMainBinding
-	private val viewModel: MainViewModel by lazy {
-		ViewModelProvider(this).get(MainViewModel::class.java)
-	}
-	private val interaptor: InteraptorInterface<AppState> by inject()
+	private val viewModel: MainViewModel by viewModel()
 	private val adapter = MainRvAdapter(object : OnClickWord {
 		override fun onClickWord(word: Word) {
 			showError(word.word, false)
@@ -55,7 +53,6 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					})
 			}
 		}
-		viewModel.setInteraptor(interaptor)
 	}
 
 	override fun rangeData(state: AppState) {

@@ -16,5 +16,4 @@ abstract class BaseViewModel<T : AppState>(
 		compositeDisposable.clear()
 		super.onCleared()
 	}
-	abstract fun setInteraptor(interaptor: InteraptorInterface<T>)
 }
