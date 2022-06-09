@@ -11,6 +11,7 @@ import com.gmail.pavlovsv93.dictionary.data.retrofit.RetrofitDataSource
 import com.gmail.pavlovsv93.dictionary.data.room.RoomDataSource
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.presenter.PresenterInterface
+import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
 import com.gmail.pavlovsv93.dictionary.presenter.mvvm.MainViewModelInterface
 import com.gmail.pavlovsv93.dictionary.view.MainInteraptor
 import com.gmail.pavlovsv93.dictionary.view.MainPresenter
@@ -45,5 +46,4 @@ val appModel = module {
 			.addConverterFactory(GsonConverterFactory.create())
 			.build()
 	}
-	viewModel { MainViewModel(get<InteraptorInterface<AppState>>(), get<CompositeDisposable>()) }
 }

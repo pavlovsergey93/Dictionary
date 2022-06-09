@@ -1,25 +1,23 @@
 package com.gmail.pavlovsv93.dictionary.view
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
-import com.gmail.pavlovsv93.dictionary.presenter.mvvm.MainViewModelInterface
+import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainViewModel(
-	private val interaptor: InteraptorInterface<AppState>,
-	private val compositeDisposable: CompositeDisposable
-) : ViewModel(), MainViewModelInterface {
-	private val liveData: MutableLiveData<AppState> = MutableLiveData()
-	override fun getLiveData(): LiveData<AppState> = liveData
+) : BaseViewModel<AppState>()
+{
+	private lateinit var interaptor: InteraptorInterface<AppState>
 
-	override fun getDataViewModel(word: String, isOnline: Boolean) {
+	override fun setInteraptor(interaptor: InteraptorInterface<AppState>) {
+		this.interaptor = interaptor
+	}
+
+	override fun getDataViewModel(word: String, isOnline: Boolean): LiveData<AppState> {
 		compositeDisposable.add(
 			interaptor.getDataInteraptor(word, isOnline)
 				.subscribeOn(Schedulers.io())
@@ -35,5 +33,11 @@ class MainViewModel(
 					onComplete = {liveData.postValue(AppState.Loading(1))}
 				)
 		)
+		return super.getDataViewModel(word, isOnline)
+	}
+
+	override fun onCleared() {
+		compositeDisposable.dispose()
+		super.onCleared()
 	}
 }
