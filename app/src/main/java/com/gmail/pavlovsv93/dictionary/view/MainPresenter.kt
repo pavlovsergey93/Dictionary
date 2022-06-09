@@ -25,6 +25,7 @@ class MainPresenter(
 		if (currentView == view) {
 			currentView = null
 		}
+		compositeDisposable.dispose()
 	}
 
 	override fun getDataPresenter(word: String, isOnline: Boolean) {

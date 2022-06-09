@@ -2,19 +2,23 @@ package com.gmail.pavlovsv93.dictionary.view
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainBinding
-import com.gmail.pavlovsv93.dictionary.presenter.PresenterInterface
+import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.utils.isOnline
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
+
+const val SAVE_STATE_RV = "SAVE_STATE_RV"
 
 class MainActivity : AppCompatActivity(), ViewInterface {
 	interface OnClickWord {
@@ -23,17 +27,15 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 
 	private var searchWord: String? = null
 	private lateinit var binding: ActivityMainBinding
-	private val presenter: PresenterInterface by inject()
+	private val viewModel: MainViewModel by lazy {
+		ViewModelProvider(this).get(MainViewModel::class.java)
+	}
+	private val interaptor: InteraptorInterface<AppState> by inject()
 	private val adapter = MainRvAdapter(object : OnClickWord {
 		override fun onClickWord(word: Word) {
 			showError(word.word, false)
 		}
 	})
-
-	override fun onStart() {
-		presenter.onAttach(this)
-		super.onStart()
-	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -43,18 +45,17 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		recyclerView.layoutManager =
 			LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
 		recyclerView.adapter = adapter
-		binding.tilSearchWord.setEndIconOnClickListener{
+		binding.tilSearchWord.setEndIconOnClickListener() {
 			hideKeyBoard()
 			searchWord = binding.etSearchWord.text?.toString()
-			if (searchWord != null && searchWord != ""){
-				presenter.getDataPresenter(searchWord!!,binding.root.isOnline(this@MainActivity))
+			if (searchWord != null && searchWord != "") {
+				viewModel.getDataViewModel(searchWord!!, binding.root.isOnline(this@MainActivity))
+					.observe(this, Observer { state ->
+						rangeData(state)
+					})
 			}
 		}
-	}
-
-	override fun onStop() {
-		presenter.onDetach(this)
-		super.onStop()
+		viewModel.setInteraptor(interaptor)
 	}
 
 	override fun rangeData(state: AppState) {
@@ -71,7 +72,9 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					showData(receivedData)
 				} else {
 					showError(
-						resources.getString(R.string.empty_server_response_on_success), true, isOnline = false
+						resources.getString(R.string.empty_server_response_on_success),
+						true,
+						isOnline = false
 					)
 				}
 			}
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 			if (isOnline) {
 				sb.setAction("Reload Online") {
 					if (!searchWord.isNullOrEmpty()) {
-						presenter.getDataPresenter(searchWord!!, true)
+						viewModel.getDataViewModel(searchWord!!, true)
 					} else {
 						showError(resources.getString(R.string.error_empty), false)
 					}
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 			} else {
 				sb.setAction("Reload Local") {
 					if (!searchWord.isNullOrEmpty()) {
-						presenter.getDataPresenter(searchWord!!, false)
+						viewModel.getDataViewModel(searchWord!!, false)
 					} else {
 						showError(resources.getString(R.string.error_empty), false)
 					}
@@ -105,10 +108,12 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		}
 		sb.show()
 	}
-	private fun hideKeyBoard(){
+
+	private fun hideKeyBoard() {
 		val view = this.currentFocus
 		if (view != null) {
-			val imm : InputMethodManager = getSystemService (Context.INPUT_METHOD_SERVICE) as InputMethodManager
+			val imm: InputMethodManager =
+				getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 			imm.hideSoftInputFromWindow(view.windowToken, 0);
 		}
 	}
