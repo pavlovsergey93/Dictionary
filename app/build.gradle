@@ -64,4 +64,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:3.1.6"
     implementation "io.insert-koin:koin-androidx-workmanager:3.1.6"
     implementation "io.insert-koin:koin-androidx-navigation:3.1.6"
+
+    //coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 }
