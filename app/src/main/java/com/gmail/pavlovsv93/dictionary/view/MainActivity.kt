@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 	override fun rangeData(state: AppState) {
 		when (state) {
 			is AppState.Error -> {
-				showError(state.error.message.toString(), true, isOnline = true)
+				showError(state.error, true, isOnline = true)
 			}
 			is AppState.Loading -> {
 				binding.pbSearch.isVisible = state.progress == null
