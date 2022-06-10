@@ -7,14 +7,12 @@ import com.gmail.pavlovsv93.dictionary.data.retrofit.SearchDTOItem
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
 import com.gmail.pavlovsv93.dictionary.utils.AppDispatcher
+import com.gmail.pavlovsv93.dictionary.utils.BODY_EMPTY
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MainViewModel
 constructor(
@@ -22,16 +20,24 @@ constructor(
 	private val scope: CoroutineScope,
 	private val dispatcher: AppDispatcher
 ) : BaseViewModel<AppState>() {
+	private var job : Job? = null
 	override fun getDataViewModel(word: String, isOnline: Boolean): LiveData<AppState> {
 		liveData.postValue(AppState.Loading(null))
-		scope.launch() {
+		if(job?.isActive == true){
+			job?.cancel()
+		}
+		job = scope.launch() {
 			try {
 				withContext(dispatcher.io) {
 					interaptor.getDataInteraptor(word, isOnline).let { result ->
-						liveData.postValue(AppState.Loading(result.body()?.size ?: 1))
+						withContext(dispatcher.main) {
+							liveData.postValue(AppState.Loading( 1))
+						}
 						if (result.isSuccessful && result.body() != null) {
 							val convertList = convertToWord(result.body()!!)
 							liveData.postValue(AppState.Success(convertList))
+						} else if (result.body()?.isEmpty() == true) {
+							liveData.postValue(AppState.Error(BODY_EMPTY))
 						} else {
 							liveData.postValue(AppState.Error(result.message()))
 						}

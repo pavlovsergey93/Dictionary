@@ -13,6 +13,8 @@ import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainBinding
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
+import com.gmail.pavlovsv93.dictionary.utils.RELOAD_LOCAL
+import com.gmail.pavlovsv93.dictionary.utils.RELOAD_ONLINE
 import com.gmail.pavlovsv93.dictionary.utils.isOnline
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		binding.tilSearchWord.setEndIconOnClickListener() {
 			hideKeyBoard()
 			searchWord = binding.etSearchWord.text?.toString()
-			if (searchWord != null && searchWord != "") {
+			if (!searchWord.isNullOrEmpty()) {
 				viewModel.getDataViewModel(searchWord!!, binding.root.isOnline(this@MainActivity))
 					.observe(this, Observer { state ->
 						rangeData(state)
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		val sb = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
 		if (isAction) {
 			if (isOnline) {
-				sb.setAction("Reload Online") {
+				sb.setAction(RELOAD_ONLINE) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, true)
 					} else {
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					}
 				}
 			} else {
-				sb.setAction("Reload Local") {
+				sb.setAction(RELOAD_LOCAL) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, false)
 					} else {
