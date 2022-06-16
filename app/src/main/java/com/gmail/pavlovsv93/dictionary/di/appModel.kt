@@ -1,14 +1,17 @@
 package com.gmail.pavlovsv93.dictionary.di
 
+import androidx.room.Room
 import com.gmail.pavlovsv93.dictionary.data.AppState
-import com.gmail.pavlovsv93.dictionary.data.DataSourceInterface
-import com.gmail.pavlovsv93.dictionary.data.LocalDataSource
-import com.gmail.pavlovsv93.dictionary.data.RemoteDataSource
+import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
+import com.gmail.pavlovsv93.dictionary.data.datasourse.LocalDataSource
+import com.gmail.pavlovsv93.dictionary.data.datasourse.RemoteDataSource
 import com.gmail.pavlovsv93.dictionary.data.repository.Repository
 import com.gmail.pavlovsv93.dictionary.data.repository.RepositoryInterface
 import com.gmail.pavlovsv93.dictionary.data.retrofit.DictionaryApi
 import com.gmail.pavlovsv93.dictionary.data.retrofit.RetrofitDataSource
 import com.gmail.pavlovsv93.dictionary.data.room.RoomDataSource
+import com.gmail.pavlovsv93.dictionary.data.room.WordDB
+import com.gmail.pavlovsv93.dictionary.data.room.WordDao
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.utils.AppDispatcher
 import com.gmail.pavlovsv93.dictionary.view.MainInteraptor
@@ -16,6 +19,7 @@ import com.gmail.pavlovsv93.dictionary.view.MainViewModel
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -24,6 +28,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
+const val NAME_DATABASE = "DictionaryWordsDB"
 val appModel = module {
 	single<CompositeDisposable> { CompositeDisposable() }
 	single<InteraptorInterface<AppState>> {
@@ -41,7 +46,9 @@ val appModel = module {
 		)
 	}
 	single<DataSourceInterface<List<Word>>>(named("local")) { LocalDataSource(provider = get()) }
-	single<RoomDataSource> { RoomDataSource() }
+	single<RoomDataSource> { RoomDataSource(dao = get()) }
+	single<WordDB> { Room.databaseBuilder(androidContext(), WordDB::class.java, NAME_DATABASE).build() }
+	single<WordDao> { get<WordDB>().getDao() }
 
 	single<RepositoryInterface<List<Word>>>(named("remote_repos")) {
 		Repository(

@@ -9,5 +9,5 @@ interface DictionaryApi {
 	@GET("words/search")
 	suspend fun search(
 		@Query("search") wordToSearch: String
-	): Response<List<SearchDTOItem>>
+	): List<SearchDTOItem>
 }

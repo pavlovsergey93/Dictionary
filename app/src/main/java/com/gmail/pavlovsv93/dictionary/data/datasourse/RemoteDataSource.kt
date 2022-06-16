@@ -1,12 +1,10 @@
-package com.gmail.pavlovsv93.dictionary.data
+package com.gmail.pavlovsv93.dictionary.data.datasourse
 
+import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
 import com.gmail.pavlovsv93.dictionary.data.retrofit.RetrofitDataSource
-import com.gmail.pavlovsv93.dictionary.data.retrofit.SearchDTOItem
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
-import io.reactivex.rxjava3.core.Observable
-import retrofit2.Response
 
 class RemoteDataSource(private val provider: RetrofitDataSource) : DataSourceInterface<List<Word>> {
-	override suspend fun getData(word: String): Response<List<SearchDTOItem>> =
+	override suspend fun getData(word: String): List<Word> =
 		provider.getData(word)
 }
