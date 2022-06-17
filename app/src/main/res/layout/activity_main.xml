@@ -37,6 +37,15 @@
 				android:layout_height="match_parent" />
 	</LinearLayout>
 
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/fabFavorite"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|end"
+			android:layout_marginEnd="@dimen/_16dp"
+			android:layout_marginBottom="@dimen/_16dp"
+			android:src="@drawable/ic_baseline_favorite_border_24" />
+
 	<ProgressBar
 			android:id="@+id/pbSearch"
 			android:layout_width="wrap_content"

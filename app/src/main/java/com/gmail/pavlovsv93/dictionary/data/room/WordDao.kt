@@ -1,9 +1,6 @@
 package com.gmail.pavlovsv93.dictionary.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface WordDao {
@@ -15,4 +12,13 @@ interface WordDao {
 
 	@Query("SELECT * FROM WordEntity WHERE text LIKE '%' || :word || '%'")
 	suspend fun findWord(word: String): List<WordEntity>
+
+	@Query("SELECT * FROM FavoriteWordEntity")
+	suspend fun getAllFavorite(): List<FavoriteWordEntity>
+
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	suspend fun addToFavorite(vararg word: FavoriteWordEntity)
+
+	@Delete
+	suspend fun deleteFavorite(word: FavoriteWordEntity)
 }
