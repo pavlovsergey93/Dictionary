@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainRvItemBinding
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
@@ -22,6 +25,7 @@ class MainRvAdapter(val onClick: MainActivity.OnClickWord) :
 					Glide.with(itemView.context)
 						.load(word.meanings.imageUrl)
 						.centerCrop()
+						.transform(MultiTransformation(CircleCrop(),FitCenter()))
 						.placeholder(R.drawable.ic_baseline_image_24)
 						.into(ivImageWord)
 				}
