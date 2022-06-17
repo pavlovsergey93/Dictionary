@@ -24,7 +24,7 @@ class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>>
 		//meanings.forEach {
 			//val meaning =
 				return Word.Meanings(
-				imageUrl = meanings.imageUrl,
+				imageUrl = "https:" + meanings.imageUrl,
 				translation = convertTranslation(meanings.translation)
 			)
 		//	result.add(meaning)

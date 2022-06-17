@@ -5,20 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainRvItemBinding
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 
-class MainRvAdapter(val onClick: MainActivity.OnClickWord) : RecyclerView.Adapter<MainRvAdapter.MainRvViewHolder>() {
+class MainRvAdapter(val onClick: MainActivity.OnClickWord) :
+	RecyclerView.Adapter<MainRvAdapter.MainRvViewHolder>() {
 
 	inner class MainRvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		fun bind(word: Word) {
 			ActivityMainRvItemBinding.bind(itemView).apply {
 				tvHeaderItem.text = word.word
 				tvDescriptionItem.text = word.meanings.translation?.text
+				word.meanings.imageUrl?.let {
+					Glide.with(itemView.context)
+						.load(word.meanings.imageUrl)
+						.centerCrop()
+						.placeholder(R.drawable.ic_baseline_image_24)
+						.into(ivImageWord)
+				}
 				llContainerItem.setOnClickListener {
 					onClick.onClickWord(word)
 				}
+
 			}
 		}
 	}

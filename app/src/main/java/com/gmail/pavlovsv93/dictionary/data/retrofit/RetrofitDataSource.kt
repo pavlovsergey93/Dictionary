@@ -23,7 +23,7 @@ class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word
 		val result: MutableList<Word.Meanings> = mutableListOf()
 		meanings.forEach {
 			val meaning = Word.Meanings(
-				imageUrl = it.imageUrl,
+				imageUrl = "https:" + it.imageUrl,
 				translation = convertTranslation(it.translation)
 			)
 			result.add(meaning)
