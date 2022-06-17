@@ -20,10 +20,10 @@ constructor(
 	private val scope: CoroutineScope,
 	private val dispatcher: AppDispatcher
 ) : BaseViewModel<AppState>() {
-	private var job : Job? = null
+	private var job: Job? = null
 	override fun getDataViewModel(word: String, isOnline: Boolean): LiveData<AppState> {
 		liveData.postValue(AppState.Loading(null))
-		if(job?.isActive == true){
+		if (job?.isActive == true) {
 			job?.cancel()
 		}
 		job = scope.launch() {
@@ -31,15 +31,14 @@ constructor(
 				withContext(dispatcher.io) {
 					interaptor.getDataInteraptor(word, isOnline).let { result ->
 						withContext(dispatcher.main) {
-							liveData.postValue(AppState.Loading( 1))
+							liveData.postValue(AppState.Loading(1))
 						}
-						if (result.isSuccessful && result.body() != null) {
-							val convertList = convertToWord(result.body()!!)
-							liveData.postValue(AppState.Success(convertList))
-						} else if (result.body()?.isEmpty() == true) {
-							liveData.postValue(AppState.Error(BODY_EMPTY))
-						} else {
-							liveData.postValue(AppState.Error(result.message()))
+						withContext(dispatcher.io) {
+							if (!result.isNullOrEmpty()) {
+								liveData.postValue(AppState.Success(result))
+							} else if (result.isEmpty()) {
+								liveData.postValue(AppState.Error(BODY_EMPTY))
+							}
 						}
 					}
 				}
@@ -54,36 +53,5 @@ constructor(
 	override fun onCleared() {
 		scope.cancel()
 		super.onCleared()
-	}
-
-	private fun convertToWord(list: List<SearchDTOItem>): List<Word> {
-		val convertList: MutableList<Word> = mutableListOf()
-		list.forEach {
-			convertList.add(
-				Word(
-					word = it.text,
-					meanings = convertMeanings(it.meanings)
-
-				)
-			)
-		}
-		return convertList
-	}
-
-	private fun convertMeanings(meanings: List<SearchDTOItem.Meaning>): List<Word.Meanings> {
-		val convertList: MutableList<Word.Meanings> = mutableListOf()
-		meanings.forEach {
-			convertList.add(
-				Word.Meanings(
-					translation = convertTranslation(it.translation),
-					imageUrl = it.imageUrl
-				)
-			)
-		}
-		return convertList
-	}
-
-	private fun convertTranslation(translation: SearchDTOItem.Translation): Word.Translation? {
-		return Word.Translation(translation.text)
 	}
 }

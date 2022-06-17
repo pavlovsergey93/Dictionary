@@ -19,7 +19,7 @@ class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word
 	}
 
 
-	private fun convertMeanings(meanings: List<SearchDTOItem.Meaning>): List<Word.Meanings> {
+	private fun convertMeanings(meanings: List<SearchDTOItem.Meaning>): Word.Meanings {
 		val result: MutableList<Word.Meanings> = mutableListOf()
 		meanings.forEach {
 			val meaning = Word.Meanings(
@@ -28,7 +28,7 @@ class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word
 			)
 			result.add(meaning)
 		}
-		return result
+		return result[0]
 	}
 
 	private fun convertTranslation(translation: SearchDTOItem.Translation): Word.Meanings.Translation? {

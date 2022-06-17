@@ -15,7 +15,7 @@ class MainRvAdapter(val onClick: MainActivity.OnClickWord) : RecyclerView.Adapte
 		fun bind(word: Word) {
 			ActivityMainRvItemBinding.bind(itemView).apply {
 				tvHeaderItem.text = word.word
-				tvDescriptionItem.text = word.meanings.first().translation?.text
+				tvDescriptionItem.text = word.meanings.translation?.text
 				llContainerItem.setOnClickListener {
 					onClick.onClickWord(word)
 				}

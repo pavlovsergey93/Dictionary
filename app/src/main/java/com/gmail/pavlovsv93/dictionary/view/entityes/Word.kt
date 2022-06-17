@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class Word(
 	val id: String,
 	val word: String,
-	val meanings: List<Meanings>
+	val meanings: Meanings
 ) {
 	data class Meanings(
 		val translation: Translation?,

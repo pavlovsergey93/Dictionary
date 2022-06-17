@@ -13,7 +13,7 @@ class MainInteraptor(
 ) : InteraptorInterface<AppState> {
 	override suspend fun getDataInteraptor(
 		word: String, fromRemoteSource: Boolean
-	): Response<List<SearchDTOItem>> {
+	): List<Word> {
 		return if (fromRemoteSource) {
 			remoteRepository.getDataRepository(word)
 		} else {

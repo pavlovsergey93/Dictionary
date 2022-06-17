@@ -9,7 +9,7 @@ class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>>
 		val result: MutableList<Word> = mutableListOf()
 		searchList.forEach {
 			val word = Word(
-				id = it.id,
+				id = it.wId,
 				word = it.text,
 				meanings = convertMeanings(it.meanings)
 			)
@@ -18,19 +18,20 @@ class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>>
 		return result
 	}
 
-	private fun convertMeanings(meanings: List<Meaning>): List<Word.Meanings> {
+	private fun convertMeanings(meanings: WordEntity.Meaning): Word.Meanings {
 		val result: MutableList<Word.Meanings> = mutableListOf()
-		meanings.forEach {
-			val meaning = Word.Meanings(
-				imageUrl = it.imageUrl,
-				translation = convertTranslation(it.translation)
+		//meanings.forEach {
+			//val meaning =
+				return Word.Meanings(
+				imageUrl = meanings.imageUrl,
+				translation = convertTranslation(meanings.translation)
 			)
-			result.add(meaning)
-		}
-		return result
+		//	result.add(meaning)
+		//}
+		//return result
 	}
 
-	private fun convertTranslation(translation: Word.Meanings.Translation): Word.Meanings.Translation? {
-		return Word.Meanings.Translation(translation.text)
+	private fun convertTranslation(translation: WordEntity.Meaning.Translation): Word.Meanings.Translation? {
+		return Word.Meanings.Translation(translation.translationText)
 	}
 }
