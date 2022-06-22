@@ -8,23 +8,25 @@ import androidx.room.PrimaryKey
 @Entity
 data class WordEntity(
 	@PrimaryKey
-	val id: Int,
+	val wId: String,
 
 	@Embedded
-	@ColumnInfo(name = "meanings")
-	val meanings: List<Meaning>,
+	val meanings: Meaning,
 
 	@ColumnInfo(name = "text")
 	val text: String
-)
+) {
 
-data class Meaning(
-	val id: Int,
-	val imageUrl: String,
-	val translation: Translation
-){
-	inner class Translation(
-		val text: String
-	)
+	data class Meaning(
+		val mId: Int,
+		val imageUrl: String?,
+
+		@Embedded
+		val translation: Translation
+	) {
+		class Translation(
+			val translationText: String?
+		)
+	}
 }
 
