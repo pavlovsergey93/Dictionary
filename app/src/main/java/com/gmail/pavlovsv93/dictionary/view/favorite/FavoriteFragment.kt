@@ -4,17 +4,39 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.FragmentFavoriteBinding
+import com.gmail.pavlovsv93.dictionary.utils.FAVORITE_VIEWMODEL
+import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
-class FavoriteFragment: Fragment() {
-	companion object{
+class FavoriteFragment : Fragment() {
+	interface OnClickWord {
+		fun onClickWord(word: Word)
+		fun onClickToFavorite(word: Word, favoriteState: Boolean)
+	}
+
+	companion object {
 		fun newInstance() = FavoriteFragment()
 	}
+
 	private var _binding: FragmentFavoriteBinding? = null
 	private val binding get() = _binding!!
+	private val viewModel: FavoriteViewModel by viewModel(named(FAVORITE_VIEWMODEL))
+	private val adapter: FavoriteAdapter = FavoriteAdapter(object : OnClickWord {
+		override fun onClickWord(word: Word) {
+			Snackbar.make(binding.root, word.word, Snackbar.LENGTH_LONG).show()
+		}
+
+		override fun onClickToFavorite(word: Word, favoriteState: Boolean) {
+			viewModel.deleteIsFavorite(word.id.toInt())
+		}
+	})
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -33,7 +55,30 @@ class FavoriteFragment: Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val recyclerView = binding.rvFavorite
-		recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		recyclerView.adapter
+		recyclerView.layoutManager =
+			LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+		recyclerView.adapter = adapter
+		viewModel.getDataViewModel().observe(viewLifecycleOwner, Observer { state ->
+			rangeData(state)
+		})
+		viewModel.getFavoritesList()
+	}
+
+	private fun rangeData(state: AppState) {
+		when (state) {
+			is AppState.Error -> {
+				Snackbar.make(binding.root, state.error, Snackbar.LENGTH_LONG).show()
+			}
+			is AppState.Loading -> {
+				binding.pbFavoriteProgress.visibility = if (state.progress != null){
+					View.GONE
+				} else {
+					View.VISIBLE
+				}
+			}
+			is AppState.Success -> {
+				adapter.setData(state.data)
+			}
+		}
 	}
 }
