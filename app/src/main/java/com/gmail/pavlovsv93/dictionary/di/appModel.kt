@@ -38,36 +38,41 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 const val NAME_DATABASE = "DictionaryWordsDB"
+const val REMOTE_REPOS = "remote_repos"
+const val LOCAL_REPOS = "local_repos"
+const val FAVORITE_REPOS = "favorite_repos"
+const val REMOTE_DS = "remote"
+const val LOCAL_DS = "local"
 val appModel = module {
 	single<CompositeDisposable> { CompositeDisposable() }
 	single<InteraptorInterface<AppState>> {
 		MainInteraptor(
-			remoteRepository = get(named("remote_repos")),
-			localRepository = get(named("local_repos")),
+			remoteRepository = get(named(REMOTE_REPOS)),
+			localRepository = get(named(LOCAL_REPOS)),
 			favoriteRepository = get()
 		)
 	}
 
-	single<RepositoryInterface<List<Word>>>(named("local_repos")) {
+	single<RepositoryInterface<List<Word>>>(named(LOCAL_REPOS)) {
 		Repository(
 			dataSource = get(
-				named("local")
+				named(LOCAL_DS)
 			)
 		)
 	}
-	single<DataSourceInterface<List<Word>>>(named("local")) { LocalDataSource(provider = get()) }
+	single<DataSourceInterface<List<Word>>>(named(LOCAL_DS)) { LocalDataSource(provider = get()) }
 	single<RoomDataSource> { RoomDataSource(dao = get()) }
 	single<WordDB> { Room.databaseBuilder(androidContext(), WordDB::class.java, NAME_DATABASE).build() }
 	single<WordDao> { get<WordDB>().getDao() }
 
-	single<RepositoryInterface<List<Word>>>(named("remote_repos")) {
+	single<RepositoryInterface<List<Word>>>(named(REMOTE_REPOS)) {
 		Repository(
 			dataSource = get(
-				named("remote")
+				named(REMOTE_DS)
 			)
 		)
 	}
-	single<DataSourceInterface<List<Word>>>(named("remote")) { RemoteDataSource(provider = get()) }
+	single<DataSourceInterface<List<Word>>>(named(REMOTE_DS)) { RemoteDataSource(provider = get()) }
 	single<RetrofitDataSource> { RetrofitDataSource(api = get()) }
 	single<DictionaryApi> { get<Retrofit>().create(DictionaryApi::class.java) }
 	single<Retrofit> {
@@ -82,8 +87,8 @@ val appModel = module {
 	viewModel(named(MAIN_VIEWMODEL)) { MainViewModel(interaptor = get(), scope = get(), dispatcher = get()) }
 
 	single { RoomFavoriteDataSourse(dao = get()) }
-	single<DataSourceInterface<List<Word>>>(named("favorite")) { FavoriteDataSource(provider = get()) }
-	single<FavoriteRepositoryInterface<List<Word>>> { FavoriteRepository(dataSource = get(named("favorite"))) }
+	single<DataSourceInterface<List<Word>>>(named(FAVORITE_REPOS)) { FavoriteDataSource(provider = get()) }
+	single<FavoriteRepositoryInterface<List<Word>>> { FavoriteRepository(dataSource = get(named(FAVORITE_REPOS))) }
 	single<FavoriteInteraptorInterface<AppState>> { FavoriteInteraptor(favoriteRepository = get()) }
 	viewModel(named(FAVORITE_VIEWMODEL)) { FavoriteViewModel(interaptor = get(), dispatcher = get())}
 }
