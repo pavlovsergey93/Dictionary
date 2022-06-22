@@ -4,7 +4,7 @@ import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 
 class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word>> {
-	override suspend fun getData(word: String): List<Word> {
+	override suspend fun getDataBySearchWord(word: String): List<Word> {
 		val searchList = api.search(word)
 		val result: MutableList<Word> = mutableListOf()
 		searchList.forEach {
@@ -36,6 +36,14 @@ class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word
 	}
 
 	override suspend fun setDataLocal(words: List<Word>) {
+		TODO("Not yet implemented")
+	}
+
+	override suspend fun getData(): List<Word> {
+		TODO("Not yet implemented")
+	}
+
+	override suspend fun deleteData(idWord: Int) {
 		TODO("Not yet implemented")
 	}
 }

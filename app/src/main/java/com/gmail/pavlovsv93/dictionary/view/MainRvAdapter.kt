@@ -25,14 +25,27 @@ class MainRvAdapter(val onClick: MainActivity.OnClickWord) :
 					Glide.with(itemView.context)
 						.load(word.meanings.imageUrl)
 						.centerCrop()
-						.transform(MultiTransformation(CircleCrop(),FitCenter()))
+						.transform(MultiTransformation(CircleCrop(), FitCenter()))
 						.placeholder(R.drawable.ic_baseline_image_24)
 						.into(ivImageWord)
+				}
+				if (word.isFavorite){
+					ivFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+				} else {
+					ivFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 				}
 				llContainerItem.setOnClickListener {
 					onClick.onClickWord(word)
 				}
-
+				ivFavorite.setOnClickListener {
+					if(word.isFavorite){
+						ivFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+					} else {
+						ivFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+					}
+					onClick.onClickToFavorite(word, !word.isFavorite)
+					notifyItemChanged(layoutPosition)
+				}
 			}
 		}
 	}

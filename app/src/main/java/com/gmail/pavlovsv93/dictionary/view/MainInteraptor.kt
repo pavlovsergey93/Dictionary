@@ -1,6 +1,8 @@
 package com.gmail.pavlovsv93.dictionary.view
 
 import com.gmail.pavlovsv93.dictionary.data.AppState
+import com.gmail.pavlovsv93.dictionary.data.repository.FavoriteRepository
+import com.gmail.pavlovsv93.dictionary.data.repository.FavoriteRepositoryInterface
 import com.gmail.pavlovsv93.dictionary.data.repository.RepositoryInterface
 import com.gmail.pavlovsv93.dictionary.data.retrofit.SearchDTOItem
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
@@ -9,7 +11,8 @@ import retrofit2.Response
 
 class MainInteraptor(
 	private val remoteRepository: RepositoryInterface<List<Word>>,
-	private val localRepository: RepositoryInterface<List<Word>>
+	private val localRepository: RepositoryInterface<List<Word>>,
+	private val favoriteRepository: FavoriteRepositoryInterface<List<Word>>
 ) : InteraptorInterface<AppState> {
 	override suspend fun getDataInteraptor(
 		word: String, fromRemoteSource: Boolean
@@ -23,5 +26,9 @@ class MainInteraptor(
 
 	override suspend fun setDataLocal(words: List<Word>) {
 		localRepository.setDataLocal(words)
+	}
+
+	override suspend fun setDataFavorite(word: Word) {
+		favoriteRepository.setFavoriteData(listOf(word))
 	}
 }

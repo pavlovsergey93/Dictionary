@@ -1,6 +1,7 @@
 package com.gmail.pavlovsv93.dictionary.data.room
 
 import androidx.room.*
+import com.gmail.pavlovsv93.dictionary.data.room.favorite.FavoriteWordEntity
 
 @Dao
 interface WordDao {
@@ -13,6 +14,9 @@ interface WordDao {
 	@Query("SELECT * FROM WordEntity WHERE text LIKE '%' || :word || '%'")
 	suspend fun findWord(word: String): List<WordEntity>
 
+	@Query("SELECT * FROM FavoriteWordEntity WHERE fWord LIKE '%' || :word || '%'")
+	suspend fun findFavoriteWord(word: String): List<FavoriteWordEntity>
+
 	@Query("SELECT * FROM FavoriteWordEntity")
 	suspend fun getAllFavorite(): List<FavoriteWordEntity>
 
@@ -21,4 +25,7 @@ interface WordDao {
 
 	@Delete
 	suspend fun deleteFavorite(word: FavoriteWordEntity)
+
+	@Query("SELECT * FROM FavoriteWordEntity WHERE fId = :idWord")
+	suspend fun getWord(idWord: Int): FavoriteWordEntity
 }

@@ -21,6 +21,7 @@ constructor(
 	private val dispatcher: AppDispatcher
 ) : BaseViewModel<AppState>() {
 	private var job: Job? = null
+	private var jobSetRoom: Job? = null
 	override fun getDataViewModel(word: String, isOnline: Boolean): LiveData<AppState> {
 		liveData.postValue(AppState.Loading(null))
 		if (job?.isActive == true) {
@@ -34,7 +35,7 @@ constructor(
 							liveData.postValue(AppState.Loading(1))
 						}
 						if (!result.isNullOrEmpty()) {
-							withContext(dispatcher.io){
+							withContext(dispatcher.io) {
 								liveData.postValue(AppState.Success(result))
 								interaptor.setDataLocal(result)
 							}
@@ -49,6 +50,15 @@ constructor(
 			}
 		}
 		return super.getDataViewModel(word, isOnline)
+	}
+
+	fun setFavorite(word: Word) {
+		jobSetRoom = scope
+			.launch {
+			withContext(dispatcher.io) {
+				interaptor.setDataFavorite(word)
+			}
+		}
 	}
 
 	override fun onCleared() {

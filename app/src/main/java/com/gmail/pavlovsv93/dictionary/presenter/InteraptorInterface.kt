@@ -8,4 +8,5 @@ import retrofit2.Response
 interface InteraptorInterface<T> {
 	suspend fun getDataInteraptor(word: String, fromRemoteSource: Boolean): List<Word>
 	suspend fun setDataLocal(words: List<Word>)
+	suspend fun setDataFavorite(word: Word)
 }

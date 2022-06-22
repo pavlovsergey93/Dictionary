@@ -17,6 +17,16 @@
 			app:layout_constraintTop_toTopOf="parent"
 			app:srcCompat="@drawable/ic_baseline_image_24" />
 
+	<androidx.appcompat.widget.AppCompatImageView
+			android:layout_margin="@dimen/_4dp"
+			android:id="@+id/ivFavorite"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+			app:layout_constraintEnd_toEndOf="@id/ivImageWord"
+			app:layout_constraintTop_toTopOf="parent" />
+
+
 	<TextView
 			android:id="@+id/tvHeaderItem"
 			android:layout_width="0dp"

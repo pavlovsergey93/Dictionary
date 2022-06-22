@@ -5,7 +5,7 @@ import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 import kotlin.math.min
 
 class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>> {
-	override suspend fun getData(word: String): List<Word> {
+	override suspend fun getDataBySearchWord(word: String): List<Word> {
 		val searchList = dao.findWord(word)
 		val result: MutableList<Word> = mutableListOf()
 		searchList.forEach {
@@ -21,15 +21,10 @@ class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>>
 
 	private fun convertMeanings(meanings: WordEntity.Meaning): Word.Meanings {
 		val result: MutableList<Word.Meanings> = mutableListOf()
-		//meanings.forEach {
-			//val meaning =
-				return Word.Meanings(
-				imageUrl = "https:" + meanings.imageUrl,
-				translation = convertTranslation(meanings.translation)
-			)
-		//	result.add(meaning)
-		//}
-		//return result
+		return Word.Meanings(
+			imageUrl = "https:" + meanings.imageUrl,
+			translation = convertTranslation(meanings.translation)
+		)
 	}
 
 	private fun convertTranslation(translation: WordEntity.Meaning.Translation): Word.Meanings.Translation? {
@@ -53,5 +48,23 @@ class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>>
 			imageUrl = meanings.imageUrl,
 			translation = WordEntity.Meaning.Translation(meanings.translation?.text)
 		)
+	}
+
+	override suspend fun getData(): List<Word> {
+		val list = dao.getAllWord()
+		val result: MutableList<Word> = mutableListOf()
+		list.forEach {
+			val word = Word(
+				id = it.wId,
+				word = it.text,
+				meanings = convertMeanings(it.meanings)
+			)
+			result.add(word)
+		}
+		return result
+	}
+
+	override suspend fun deleteData(idWord: Int) {
+		dao.deleteFavorite(dao.getWord(idWord))
 	}
 }
