@@ -1,10 +1,10 @@
-package com.gmail.pavlovsv93.dictionary.data.room.favorite
+package com.gmail.pavlovsv93.repository.room.favorite
 
-import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
-import com.gmail.pavlovsv93.dictionary.data.room.WordDao
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.repository.room.WordDao
 
-class RoomFavoriteDataSourse(private val dao: WordDao) : DataSourceInterface<List<Word>> {
+class RoomFavoriteDataSourse(private val dao: WordDao) :
+	com.gmail.pavlovsv93.repository.datasource.DataSourceInterface<List<Word>> {
 	override suspend fun getDataBySearchWord(word: String): List<Word> {
 		val result: MutableList<Word> = mutableListOf()
 		dao.findFavoriteWord(word).forEach {

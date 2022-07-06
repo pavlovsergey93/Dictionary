@@ -1,6 +1,6 @@
-package com.gmail.pavlovsv93.dictionary.data.repository
+package com.gmail.pavlovsv93.repository
 
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 interface RepositoryInterface<T> {
 	suspend fun getDataRepository(word: String): List<Word>

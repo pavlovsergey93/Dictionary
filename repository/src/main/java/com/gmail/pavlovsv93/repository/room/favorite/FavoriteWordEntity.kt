@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.room.favorite
+package com.gmail.pavlovsv93.repository.room.favorite
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

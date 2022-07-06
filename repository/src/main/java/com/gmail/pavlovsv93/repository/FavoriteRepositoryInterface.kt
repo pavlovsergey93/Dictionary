@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.repository
+package com.gmail.pavlovsv93.repository
 
 interface FavoriteRepositoryInterface <T> {
 	suspend fun getAllFavorite(): T

@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.datasourse
+package com.gmail.pavlovsv93.repository.datasource
 
 import com.gmail.pavlovsv93.dictionary.data.retrofit.RetrofitDataSource
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word

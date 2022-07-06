@@ -1,7 +1,7 @@
-package com.gmail.pavlovsv93.dictionary.data.room
+package com.gmail.pavlovsv93.repository.room
 
 import androidx.room.*
-import com.gmail.pavlovsv93.dictionary.data.room.favorite.FavoriteWordEntity
+import com.gmail.pavlovsv93.repository.room.favorite.FavoriteWordEntity
 
 @Dao
 interface WordDao {

@@ -1,9 +1,9 @@
-package com.gmail.pavlovsv93.dictionary.data.room
+package com.gmail.pavlovsv93.repository.room
 
-import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 
-class RoomDataSource(private val dao: WordDao) : DataSourceInterface<List<Word>> {
+class RoomDataSource(private val dao: WordDao) :
+	com.gmail.pavlovsv93.repository.datasource.DataSourceInterface<List<Word>> {
 	override suspend fun getDataBySearchWord(word: String): List<Word> {
 		val searchList = dao.findWord(word)
 		val result: MutableList<Word> = mutableListOf()

@@ -1,9 +1,9 @@
-package com.gmail.pavlovsv93.dictionary.data.retrofit
+package com.gmail.pavlovsv93.repository.retrofit
 
-import com.gmail.pavlovsv93.dictionary.data.datasourse.DataSourceInterface
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
 
-class RetrofitDataSource(val api: DictionaryApi) : DataSourceInterface<List<Word>> {
+class RetrofitDataSource(val api: DictionaryApi) :
+	com.gmail.pavlovsv93.repository.datasource.DataSourceInterface<List<Word>> {
 	override suspend fun getDataBySearchWord(word: String): List<Word> {
 		val searchList = api.search(word)
 		val result: MutableList<Word> = mutableListOf()

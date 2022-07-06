@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.retrofit
+package com.gmail.pavlovsv93.repository.retrofit
 
 import com.google.gson.annotations.SerializedName
 

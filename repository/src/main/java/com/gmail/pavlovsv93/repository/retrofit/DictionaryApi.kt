@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.retrofit
+package com.gmail.pavlovsv93.repository.retrofit
 
 import retrofit2.http.GET
 import retrofit2.http.Query

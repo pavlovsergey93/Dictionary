@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.datasourse
+package com.gmail.pavlovsv93.repository.datasource
 
 interface DataSourceInterface<T> {
 	suspend fun getDataBySearchWord(word:String): T

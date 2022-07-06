@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.data.room
+package com.gmail.pavlovsv93.repository.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
