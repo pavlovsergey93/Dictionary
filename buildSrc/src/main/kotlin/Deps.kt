@@ -13,8 +13,8 @@ object Deps {
 
 	private const val RETROFIT_VERSION = "2.9.0"
 	const val RETROFIT = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-	const val CONVERTOR_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-	const val ADAPTER_RX_JAVA3 = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
+	const val RETROFIT_CONVERTOR_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+	const val RETROFIT_ADAPTER_RX_JAVA3 = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
 	private const val OKHTTP_VERSION = "3.12.1"
 	const val OKHTTP = "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
