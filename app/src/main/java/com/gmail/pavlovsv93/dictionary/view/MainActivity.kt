@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainBinding
-import com.gmail.pavlovsv93.dictionary.utils.MAIN_VIEWMODEL
-import com.gmail.pavlovsv93.dictionary.utils.RELOAD_LOCAL
-import com.gmail.pavlovsv93.dictionary.utils.RELOAD_ONLINE
-import com.gmail.pavlovsv93.dictionary.utils.isOnline
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.utils.isOnline
+import com.gmail.pavlovsv93.app_entities.Word
 import com.gmail.pavlovsv93.dictionary.view.favorite.FavoriteFragment
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 	private var flag: Boolean = false
 	private var searchWord: String? = null
 	private lateinit var binding: ActivityMainBinding
-	private val viewModel: MainViewModel by viewModel(named(MAIN_VIEWMODEL))
+	private val viewModel: MainViewModel by viewModel(named(com.gmail.pavlovsv93.utils.MAIN_VIEWMODEL))
 	private val adapter = MainRvAdapter(object : OnClickWord {
 		override fun onClickWord(word: Word) {
 			//Показать слово по нажатию
@@ -111,7 +108,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		val sb = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
 		if (isAction) {
 			if (isOnline) {
-				sb.setAction(RELOAD_ONLINE) {
+				sb.setAction(com.gmail.pavlovsv93.utils.RELOAD_ONLINE) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, true)
 					} else {
@@ -119,7 +116,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					}
 				}
 			} else {
-				sb.setAction(RELOAD_LOCAL) {
+				sb.setAction(com.gmail.pavlovsv93.utils.RELOAD_LOCAL) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, false)
 					} else {

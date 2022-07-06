@@ -1,9 +1,9 @@
 package com.gmail.pavlovsv93.dictionary.view.favorite
 
 import com.gmail.pavlovsv93.dictionary.data.AppState
-import com.gmail.pavlovsv93.dictionary.data.repository.FavoriteRepositoryInterface
+import com.gmail.pavlovsv93.repository.FavoriteRepositoryInterface
 import com.gmail.pavlovsv93.dictionary.presenter.FavoriteInteraptorInterface
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 class FavoriteInteraptor(private val favoriteRepository: FavoriteRepositoryInterface<List<Word>>) : FavoriteInteraptorInterface<AppState> {
 	override suspend fun getAllFavorite(): List<Word> {

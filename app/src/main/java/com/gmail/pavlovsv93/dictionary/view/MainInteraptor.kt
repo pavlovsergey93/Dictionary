@@ -1,13 +1,10 @@
 package com.gmail.pavlovsv93.dictionary.view
 
 import com.gmail.pavlovsv93.dictionary.data.AppState
-import com.gmail.pavlovsv93.dictionary.data.repository.FavoriteRepository
-import com.gmail.pavlovsv93.dictionary.data.repository.FavoriteRepositoryInterface
-import com.gmail.pavlovsv93.dictionary.data.repository.RepositoryInterface
-import com.gmail.pavlovsv93.dictionary.data.retrofit.SearchDTOItem
+import com.gmail.pavlovsv93.repository.FavoriteRepositoryInterface
+import com.gmail.pavlovsv93.repository.RepositoryInterface
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
-import retrofit2.Response
+import com.gmail.pavlovsv93.app_entities.Word
 
 class MainInteraptor(
 	private val remoteRepository: RepositoryInterface<List<Word>>,
