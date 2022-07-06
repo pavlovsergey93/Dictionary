@@ -44,9 +44,13 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
+	implementation(project(":utils"))
+	implementation(project(":app_entities"))
+	implementation(project(":repository"))
+
     //Room
     kapt("androidx.room:room-compiler:2.4.2")
-    implementation("androidx.room:room-guava:2.4.2")
+    implementation("androidx.room:room-guava3.1.4:2.4.2")
     implementation("androidx.room:room-ktx:2.4.2")
 
     //Rx

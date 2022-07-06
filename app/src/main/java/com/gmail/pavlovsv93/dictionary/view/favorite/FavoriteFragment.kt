@@ -9,16 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.FragmentFavoriteBinding
-import com.gmail.pavlovsv93.dictionary.utils.FAVORITE_VIEWMODEL
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
 class FavoriteFragment : Fragment() {
 	interface OnClickWord {
-		fun onClickWord(word: Word)
-		fun onClickToFavorite(word: Word, favoriteState: Boolean)
+		fun onClickWord(word: com.gmail.pavlovsv93.app_entities.Word)
+		fun onClickToFavorite(word: com.gmail.pavlovsv93.app_entities.Word, favoriteState: Boolean)
 	}
 
 	companion object {
@@ -27,13 +26,13 @@ class FavoriteFragment : Fragment() {
 
 	private var _binding: FragmentFavoriteBinding? = null
 	private val binding get() = _binding!!
-	private val viewModel: FavoriteViewModel by viewModel(named(FAVORITE_VIEWMODEL))
+	private val viewModel: FavoriteViewModel by viewModel(named(com.gmail.pavlovsv93.utils.FAVORITE_VIEWMODEL))
 	private val adapter: FavoriteAdapter = FavoriteAdapter(object : OnClickWord {
-		override fun onClickWord(word: Word) {
+		override fun onClickWord(word: com.gmail.pavlovsv93.app_entities.Word) {
 			Snackbar.make(binding.root, word.word, Snackbar.LENGTH_LONG).show()
 		}
 
-		override fun onClickToFavorite(word: Word, favoriteState: Boolean) {
+		override fun onClickToFavorite(word: com.gmail.pavlovsv93.app_entities.Word, favoriteState: Boolean) {
 			viewModel.deleteIsFavorite(word.id.toInt())
 		}
 	})

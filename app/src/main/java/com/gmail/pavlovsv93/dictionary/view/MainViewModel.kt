@@ -4,16 +4,14 @@ import androidx.lifecycle.LiveData
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
-import com.gmail.pavlovsv93.dictionary.utils.AppDispatcher
-import com.gmail.pavlovsv93.dictionary.utils.BODY_EMPTY
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 import kotlinx.coroutines.*
 
 class MainViewModel
 constructor(
 	private val interaptor: InteraptorInterface<AppState>,
 	private val scope: CoroutineScope,
-	private val dispatcher: AppDispatcher
+	private val dispatcher: com.gmail.pavlovsv93.utils.AppDispatcher
 ) : BaseViewModel<AppState>() {
 	private var job: Job? = null
 	private var jobSetRoom: Job? = null
@@ -35,7 +33,7 @@ constructor(
 								interaptor.setDataLocal(result)
 							}
 						} else if (result.isEmpty()) {
-							liveData.postValue(AppState.Error(BODY_EMPTY))
+							liveData.postValue(AppState.Error(com.gmail.pavlovsv93.utils.BODY_EMPTY))
 						}
 					}
 				}
