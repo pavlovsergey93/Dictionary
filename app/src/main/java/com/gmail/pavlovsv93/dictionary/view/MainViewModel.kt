@@ -1,17 +1,12 @@
 package com.gmail.pavlovsv93.dictionary.view
 
 import androidx.lifecycle.LiveData
-import com.gmail.pavlovsv93.dictionary.App
 import com.gmail.pavlovsv93.dictionary.data.AppState
-import com.gmail.pavlovsv93.dictionary.data.retrofit.SearchDTOItem
 import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
 import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
 import com.gmail.pavlovsv93.dictionary.utils.AppDispatcher
 import com.gmail.pavlovsv93.dictionary.utils.BODY_EMPTY
 import com.gmail.pavlovsv93.dictionary.view.entityes.Word
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.*
 
 class MainViewModel

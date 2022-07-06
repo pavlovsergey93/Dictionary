@@ -1,7 +1,5 @@
 package com.gmail.pavlovsv93.dictionary.view.entityes
 
-import com.google.gson.annotations.SerializedName
-
 data class Word(
 	val id: String,
 	val word: String,
