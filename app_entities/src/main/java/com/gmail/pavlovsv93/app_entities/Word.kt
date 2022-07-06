@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.view.entityes
+package com.gmail.pavlovsv93.app_entities
 
 data class Word(
 	val id: String,
