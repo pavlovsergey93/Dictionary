@@ -1,6 +1,6 @@
 package com.gmail.pavlovsv93.repository.room
 
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 class RoomDataSource(private val dao: WordDao) :
 	com.gmail.pavlovsv93.repository.datasource.DataSourceInterface<List<Word>> {

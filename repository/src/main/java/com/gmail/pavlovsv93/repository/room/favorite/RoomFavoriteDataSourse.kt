@@ -1,6 +1,6 @@
 package com.gmail.pavlovsv93.repository.room.favorite
 
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 import com.gmail.pavlovsv93.repository.room.WordDao
 
 class RoomFavoriteDataSourse(private val dao: WordDao) :

@@ -48,11 +48,6 @@ dependencies {
 	implementation(project(":app_entities"))
 	implementation(project(":repository"))
 
-    //Room
-    kapt("androidx.room:room-compiler:2.4.2")
-    implementation("androidx.room:room-guava3.1.4:2.4.2")
-    implementation("androidx.room:room-ktx:2.4.2")
-
     //Rx
     implementation("io.reactivex.rxjava3:rxjava:3.1.4")
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
