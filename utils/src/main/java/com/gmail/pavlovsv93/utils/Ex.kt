@@ -1,9 +1,11 @@
-package com.gmail.pavlovsv93.dictionary.utils
+package com.gmail.pavlovsv93.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
 
+@SuppressLint("MissingPermission")
 fun View.isOnline(context: Context): Boolean {
 	val connectivityManager: ConnectivityManager =
 		context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

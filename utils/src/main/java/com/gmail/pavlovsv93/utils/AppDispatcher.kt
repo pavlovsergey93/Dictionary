@@ -1,4 +1,4 @@
-package com.gmail.pavlovsv93.dictionary.utils
+package com.gmail.pavlovsv93.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
