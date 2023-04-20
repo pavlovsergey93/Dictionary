@@ -2,38 +2,43 @@ package com.gmail.pavlovsv93.dictionary.view
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainBinding
-import com.gmail.pavlovsv93.dictionary.presenter.InteraptorInterface
-import com.gmail.pavlovsv93.dictionary.utils.RELOAD_LOCAL
-import com.gmail.pavlovsv93.dictionary.utils.RELOAD_ONLINE
-import com.gmail.pavlovsv93.dictionary.utils.isOnline
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.utils.isOnline
+import com.gmail.pavlovsv93.app_entities.Word
+import com.gmail.pavlovsv93.dictionary.view.favorite.FavoriteFragment
 import com.google.android.material.snackbar.Snackbar
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 const val SAVE_STATE_RV = "SAVE_STATE_RV"
 
 class MainActivity : AppCompatActivity(), ViewInterface {
 	interface OnClickWord {
 		fun onClickWord(word: Word)
+		fun onClickToFavorite(word: Word, favoriteState: Boolean)
 	}
 
+	private var flag: Boolean = false
 	private var searchWord: String? = null
 	private lateinit var binding: ActivityMainBinding
-	private val viewModel: MainViewModel by viewModel()
+	private val viewModel: MainViewModel by viewModel(named(com.gmail.pavlovsv93.utils.MAIN_VIEWMODEL))
 	private val adapter = MainRvAdapter(object : OnClickWord {
 		override fun onClickWord(word: Word) {
+			//Показать слово по нажатию
 			showError(word.word, false)
+		}
+
+		override fun onClickToFavorite(word: Word, favoriteState: Boolean) {
+			word.isFavorite = favoriteState
+			viewModel.setFavorite(word)
 		}
 	})
 
@@ -53,6 +58,21 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					.observe(this, Observer { state ->
 						rangeData(state)
 					})
+			}
+		}
+		binding.fabFavorite.setOnClickListener {
+			flag = !flag
+			if (flag) {
+				binding.llContainer.visibility = View.GONE
+				binding.fcvContainer.visibility = View.VISIBLE
+				binding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+				supportFragmentManager.beginTransaction()
+					.replace(R.id.fcvContainer, FavoriteFragment.newInstance())
+					.commit()
+			} else {
+				binding.llContainer.visibility = View.VISIBLE
+				binding.fcvContainer.visibility = View.GONE
+				binding.fabFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 			}
 		}
 	}
@@ -88,7 +108,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 		val sb = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
 		if (isAction) {
 			if (isOnline) {
-				sb.setAction(RELOAD_ONLINE) {
+				sb.setAction(com.gmail.pavlovsv93.utils.RELOAD_ONLINE) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, true)
 					} else {
@@ -96,7 +116,7 @@ class MainActivity : AppCompatActivity(), ViewInterface {
 					}
 				}
 			} else {
-				sb.setAction(RELOAD_LOCAL) {
+				sb.setAction(com.gmail.pavlovsv93.utils.RELOAD_LOCAL) {
 					if (!searchWord.isNullOrEmpty()) {
 						viewModel.getDataViewModel(searchWord!!, false)
 					} else {
