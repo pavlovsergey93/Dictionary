@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.gmail.pavlovsv93.dictionary.R
 import com.gmail.pavlovsv93.dictionary.databinding.ActivityMainRvItemBinding
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 class MainRvAdapter(val onClick: MainActivity.OnClickWord) :
 	RecyclerView.Adapter<MainRvAdapter.MainRvViewHolder>() {

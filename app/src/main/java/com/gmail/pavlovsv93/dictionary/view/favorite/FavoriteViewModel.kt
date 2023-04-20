@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.gmail.pavlovsv93.dictionary.data.AppState
 import com.gmail.pavlovsv93.dictionary.presenter.FavoriteInteraptorInterface
 import com.gmail.pavlovsv93.dictionary.presenter.mvvm.BaseViewModel
-import com.gmail.pavlovsv93.dictionary.utils.AppDispatcher
-import com.gmail.pavlovsv93.dictionary.utils.BODY_EMPTY
+import com.gmail.pavlovsv93.utils.AppDispatcher
+import com.gmail.pavlovsv93.utils.BODY_EMPTY
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

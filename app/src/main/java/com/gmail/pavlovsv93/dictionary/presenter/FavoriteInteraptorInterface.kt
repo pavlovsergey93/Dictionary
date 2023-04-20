@@ -1,6 +1,6 @@
 package com.gmail.pavlovsv93.dictionary.presenter
 
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 interface FavoriteInteraptorInterface<T> {
 	suspend fun getAllFavorite():List<Word>

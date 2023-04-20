@@ -1,6 +1,6 @@
 package com.gmail.pavlovsv93.dictionary.data
 
-import com.gmail.pavlovsv93.dictionary.view.entityes.Word
+import com.gmail.pavlovsv93.app_entities.Word
 
 sealed class AppState {
 	data class Success(val data: List<Word>) : AppState()
